@@ -2,6 +2,21 @@ import random
 
 SUITS = ("Hearts", "Diamonds", "Clubs", "Spades")
 RANKS = ("2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A")
+CARD_VALUES = {
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
+    "10": 10,
+    "J": 10,
+    "Q": 10,
+    "K": 10,
+    "A": 11,
+}
 
 
 def create_deck():
@@ -23,6 +38,32 @@ def deal_card(deck, hand):
     return dealt_card
 
 
+def calculate_hand_value(hand):
+    total = 0
+    aces_count = 0
+
+    for card in hand:
+        rank, suit = card
+        total += CARD_VALUES[rank]
+        if rank == "A":
+            aces_count += 1
+
+    while total > 21 and aces_count > 0:
+        total -= 10
+        aces_count -= 1
+
+    return total
+
+
+def get_player_action():
+    while True:
+        valid_response = ["h", "s"]
+        response = input("hit or stand? (h/s)").lower()
+
+        if response in valid_response:
+            return response
+
+
 def main():
     deck = create_deck()
     shuffle_deck(deck)
@@ -36,6 +77,15 @@ def main():
     print(f"Player Hand: {len(player_hand)}")
     print(f"Dealer Hand: {len(dealer_hand)}")
     print(f"Cards remaining: {len(deck)}")
+
+    player_total = calculate_hand_value(player_hand)
+    dealer_total = calculate_hand_value(dealer_hand)
+
+    print(f"Player Hand: {player_hand} - {player_total}")
+    print(f"Dealer Hand: {dealer_hand} - {dealer_total}")
+
+    player_action = get_player_action()
+    print(player_action)
 
 
 if __name__ == "__main__":
