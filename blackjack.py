@@ -65,7 +65,6 @@ def get_player_action():
 
 
 def player_turn(deck, player_hand):
-
     while True:
         player_total = calculate_hand_value(player_hand)
         print(f"You have {player_total}")
@@ -105,7 +104,17 @@ def determine_winner(player_total, dealer_total):
         print("Player tied Dealer - it's a tie.")
 
 
-def main():
+def get_play_again():
+    while True:
+        response = input("Play again? (y/n)").lower()
+
+        if response == "y":
+            return True
+        elif response == "n":
+            return False
+
+
+def play_round():
     deck = create_deck()
     shuffle_deck(deck)
     player_hand = []
@@ -115,27 +124,32 @@ def main():
         deal_card(deck, player_hand)
         deal_card(deck, dealer_hand)
 
-    print(f"Player Hand: {len(player_hand)}")
-    print(f"Dealer Hand: {len(dealer_hand)}")
-    print(f"Cards remaining: {len(deck)}")
-
     player_total = calculate_hand_value(player_hand)
     dealer_total = calculate_hand_value(dealer_hand)
+    visible_dealer_total = calculate_hand_value(dealer_hand[:1])
 
     print(f"Player Hand: {player_hand} - {player_total}")
-    print(f"Dealer Hand: {dealer_hand} - {dealer_total}")
+    print(f"Dealer Hand: {dealer_hand[0]} - {visible_dealer_total}")
 
     player_total = player_turn(deck, player_hand)
 
     if player_total <= 21:
         dealer_total = dealer_turn(deck, dealer_hand)
-        print(f"Dealer Total: {dealer_total}")
+        print(f"Dealer Total: {dealer_total} {dealer_hand}")
         print(f"Player Total: {player_total}")
     else:
-        print(f"Dealer Total: {dealer_total}")
+        print(f"Dealer Total: {dealer_total} {dealer_hand}")
         print(f"Player Total: {player_total}")
 
     determine_winner(player_total, dealer_total)
+
+
+def main():
+    while True:
+        play_round()
+        response = get_play_again()
+        if response is False:
+            break
 
 
 if __name__ == "__main__":
