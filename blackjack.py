@@ -68,7 +68,7 @@ def player_turn(deck, player_hand):
 
     while True:
         player_total = calculate_hand_value(player_hand)
-        print(player_hand, player_total)
+        print(f"You have {player_total}")
 
         if player_total >= 21:
             return player_total
@@ -80,6 +80,16 @@ def player_turn(deck, player_hand):
 
         if player_action == "h":
             deal_card(deck, player_hand)
+
+
+def dealer_turn(deck, dealer_hand):
+    dealer_total = calculate_hand_value(dealer_hand)
+
+    while dealer_total < 17:
+        deal_card(deck, dealer_hand)
+        dealer_total = calculate_hand_value(dealer_hand)
+
+    return dealer_total
 
 
 def main():
@@ -103,7 +113,14 @@ def main():
     print(f"Dealer Hand: {dealer_hand} - {dealer_total}")
 
     player_total = player_turn(deck, player_hand)
-    print(player_total)
+
+    if player_total <= 21:
+        dealer_total = dealer_turn(deck, dealer_hand)
+        print(f"Dealer Total: {dealer_total}")
+        print(f"Player Total: {player_total}")
+    else:
+        print(f"Dealer Total: {dealer_total}")
+        print(f"Player Total: {player_total}")
 
 
 if __name__ == "__main__":
