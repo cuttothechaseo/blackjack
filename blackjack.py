@@ -64,6 +64,24 @@ def get_player_action():
             return response
 
 
+def player_turn(deck, player_hand):
+
+    while True:
+        player_total = calculate_hand_value(player_hand)
+        print(player_hand, player_total)
+
+        if player_total >= 21:
+            return player_total
+
+        player_action = get_player_action()
+
+        if player_action == "s":
+            return player_total
+
+        if player_action == "h":
+            deal_card(deck, player_hand)
+
+
 def main():
     deck = create_deck()
     shuffle_deck(deck)
@@ -84,8 +102,8 @@ def main():
     print(f"Player Hand: {player_hand} - {player_total}")
     print(f"Dealer Hand: {dealer_hand} - {dealer_total}")
 
-    player_action = get_player_action()
-    print(player_action)
+    player_total = player_turn(deck, player_hand)
+    print(player_total)
 
 
 if __name__ == "__main__":
