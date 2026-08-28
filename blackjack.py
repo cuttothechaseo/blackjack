@@ -92,6 +92,19 @@ def dealer_turn(deck, dealer_hand):
     return dealer_total
 
 
+def determine_winner(player_total, dealer_total):
+    if player_total > 21:
+        print("Player busted - Dealer wins.")
+    elif dealer_total > 21:
+        print("Dealer busted - Player wins!")
+    elif player_total > dealer_total:
+        print("Player beat Dealer - Player wins!")
+    elif player_total < dealer_total:
+        print("Dealer beat Player - Dealer wins.")
+    else:
+        print("Player tied Dealer - it's a tie.")
+
+
 def main():
     deck = create_deck()
     shuffle_deck(deck)
@@ -121,6 +134,8 @@ def main():
     else:
         print(f"Dealer Total: {dealer_total}")
         print(f"Player Total: {player_total}")
+
+    determine_winner(player_total, dealer_total)
 
 
 if __name__ == "__main__":
